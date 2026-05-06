@@ -51,6 +51,7 @@ interface SurveyEditorProps {
   quotas: TSurveyQuota[];
   isExternalUrlsAllowed: boolean;
   publicDomain: string;
+  customisationsInSettings?: boolean;
 }
 
 export const SurveyEditor = ({
@@ -80,6 +81,7 @@ export const SurveyEditor = ({
   quotas,
   isExternalUrlsAllowed,
   publicDomain,
+  customisationsInSettings = false,
 }: SurveyEditorProps) => {
   const [activeView, setActiveView] = useState<TSurveyEditorTabs>("elements");
   const [activeElementId, setActiveElementId] = useState<string | null>(null);
@@ -220,6 +222,7 @@ export const SurveyEditor = ({
               isStorageConfigured={isStorageConfigured}
               quotas={quotas}
               isExternalUrlsAllowed={isExternalUrlsAllowed}
+              customisationsInSettings={customisationsInSettings}
             />
           )}
 
@@ -266,6 +269,9 @@ export const SurveyEditor = ({
               isFormbricksCloud={isFormbricksCloud}
               isQuotasAllowed={isQuotasAllowed}
               quotas={quotas}
+              customisationsInSettings={customisationsInSettings}
+              activeElementId={activeElementId}
+              setActiveElementId={setActiveElementId}
             />
           )}
 

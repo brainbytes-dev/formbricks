@@ -8,6 +8,7 @@ import {
   UNSPLASH_ACCESS_KEY,
 } from "@/lib/constants";
 import { getPublicDomain } from "@/lib/getPublicUrl";
+import { getPostHogFeatureFlag } from "@/lib/posthog";
 import { getTranslate } from "@/lingodotdev/server";
 import { getContactAttributeKeys } from "@/modules/ee/contacts/lib/contact-attribute-keys";
 import { getSegments } from "@/modules/ee/contacts/segments/lib/segments";
@@ -90,10 +91,12 @@ export const SurveyEditorPage = async (props: {
   ]);
 
   const quotas = isQuotasAllowed && survey ? await getQuotas(survey.id) : [];
-  const [projectLanguages, teamMemberDetails] = await Promise.all([
+  const [projectLanguages, teamMemberDetails, customisationsInSettingsFlag] = await Promise.all([
     getProjectLanguages(projectWithTeamIds.id),
     getTeamMemberDetails(projectWithTeamIds.teamIds),
+    getPostHogFeatureFlag(session.user.id, "customisations_in_settings"),
   ]);
+  const customisationsInSettings = customisationsInSettingsFlag === "in-settings";
 
   if (
     !survey ||
@@ -138,6 +141,7 @@ export const SurveyEditorPage = async (props: {
       quotas={quotas}
       isExternalUrlsAllowed={isExternalUrlsAllowed}
       publicDomain={publicDomain}
+      customisationsInSettings={customisationsInSettings}
     />
   );
 };
