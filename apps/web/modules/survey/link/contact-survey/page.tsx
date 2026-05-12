@@ -17,17 +17,19 @@ import {
 } from "@/modules/survey/link/lib/metadata-utils";
 import { getProjectByEnvironmentId } from "@/modules/survey/link/lib/project";
 
+type TContactSurveyPageSearchParams = {
+  suId?: string;
+  verify?: string;
+  lang?: string;
+  embed?: string;
+  preview?: string;
+} & Record<string, string | string[] | undefined>;
+
 interface ContactSurveyPageProps {
   params: Promise<{
     jwt: string;
   }>;
-  searchParams: Promise<{
-    suId?: string;
-    verify?: string;
-    lang?: string;
-    embed?: string;
-    preview?: string;
-  }>;
+  searchParams: Promise<TContactSurveyPageSearchParams>;
 }
 
 export const generateMetadata = async (props: ContactSurveyPageProps): Promise<Metadata> => {

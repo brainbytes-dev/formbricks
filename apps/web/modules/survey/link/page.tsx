@@ -12,17 +12,19 @@ import { getEnvironmentContextForLinkSurvey } from "@/modules/survey/link/lib/en
 import { checkAndValidateSingleUseId } from "@/modules/survey/link/lib/helper";
 import { getMetadataForLinkSurvey } from "@/modules/survey/link/metadata";
 
+type TLinkSurveyPageSearchParams = {
+  suId?: string;
+  verify?: string;
+  lang?: string;
+  embed?: string;
+  preview?: string;
+} & Record<string, string | string[] | undefined>;
+
 interface LinkSurveyPageProps {
   params: Promise<{
     surveyId: string;
   }>;
-  searchParams: Promise<{
-    suId?: string;
-    verify?: string;
-    lang?: string;
-    embed?: string;
-    preview?: string;
-  }>;
+  searchParams: Promise<TLinkSurveyPageSearchParams>;
 }
 
 export const generateMetadata = async (props: LinkSurveyPageProps): Promise<Metadata> => {
@@ -121,6 +123,7 @@ export const LinkSurveyPage = async (props: LinkSurveyPageProps) => {
     searchParams,
     singleUseId,
     singleUseResponse: singleUseResponse ?? undefined,
+    allowUrlUserIdLookup: true,
     isPreview,
     environmentContext,
     locale,
